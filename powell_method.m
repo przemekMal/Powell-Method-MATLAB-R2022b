@@ -40,19 +40,19 @@ function [minimum, xes, iter] = powell_method(f, x0, d, N, epsilon, gold_step);
     
     i = 0;
 
-    %Do wydruku
+    %To print
     xes = [];
     iter = 1;
-    %Koniec wydruku
+    %End print
     while i< N
         i = i + 1;
-        %Do wydruku
+        %To print
         xes = vertcat(xes, x0);
-        %Koniec wydruku
+        %Edn print
         for r = 1:n
             g = @(myalpha)  f(p(r, :) + myalpha .* d(r, :));     
             a = p(r,:) - gold_step * (sqrt(5)-1) / 2*i;       b = p(r,:) + gold_step * (sqrt(5)-1) / 2*i;
-            alpha_min = zloty_podzial(g, a, b, epsilon / 1000);
+            alpha_min = golden_section(g, a, b, epsilon / 1000);
             p(r + 1,:) = p(r, :) + alpha_min .* d(r, :);
         end
          % termination condition check
@@ -96,7 +96,7 @@ function [minimum, xes, iter] = powell_method(f, x0, d, N, epsilon, gold_step);
             %Determining the minimum of the function 𝑓 along the direction 𝒅𝑛(𝑖+1)
             g = @(myalpha)  f(p(n+1, :) + myalpha .* temp_d);
             a = p(n+1,:) - gold_step * (sqrt(5)-1) / 2*i;  b = p(n+1,:) + gold_step * (sqrt(5)-1) / 2*i;
-            alpha_min = zloty_podzial(g, a, b, epsilon);
+            alpha_min = golden_section(g, a, b, epsilon);
             x0 = p(n+1, :) + alpha_min .* d(n, :);
             p(1,:) = x0;
         end
