@@ -1,22 +1,33 @@
-function [minimum, xes, iter] = algorytm_powella(f, x0, d, N, epsilon, gold_step)
+% Usage:
+%   [minimum, xes, iter] = powell_method(f, x0, d, N, epsilon, gold_step)
+%
+% Parameters:
+%   - f: Objective function to minimize
+%   - x0: Initial guess for the optimum
+%   - d: search direction matrix
+%   - epsilon: possible error
+%   - gold_step: one-dimensional search interval using the Golden Section method
+%
+function [minimum, xes, iter] = powell_method(f, x0, d, N, epsilon, gold_step);
+
     if nargin < 1
-        error("Brak Funkcji!!!"); % Funkcja
+        error("No function!!!");
     end
     if nargin < 2
-        error("Brak punktu początkowego"); % Domyślny punkt początkowy
+        error("No entry point"); 
     end
     if (nargin < 3) || isempty(d)
         n = length(x0);
-        d = eye(n); % Domyślny początkowy zbiór kierunków poszukiwań
+        d = eye(n); % def search direction matrix
     end
     if nargin < 4
-        N = 20; % Domyślna liczba iteracji
+        N = 20; % def num iteration
     end
     if nargin < 5
-        epsilon = 1e-03; % Domyślny epsilon
+        epsilon = 1e-03; % def epsilon
     end
     if nargin < 6
-        gold_step = 10; % Domyślny epsilon
+        gold_step = 10; % def gold_step
     else
         gold_step = gold_step * (1+sqrt(5))/2;
     end
@@ -44,7 +55,7 @@ function [minimum, xes, iter] = algorytm_powella(f, x0, d, N, epsilon, gold_step
             alpha_min = zloty_podzial(g, a, b, epsilon / 1000);
             p(r + 1,:) = p(r, :) + alpha_min .* d(r, :);
         end
-         % Sprawdzenie warunku stopu
+         % termination condition check
         if (norm(f(p(n+1,:)) - f(x0)) <= epsilon) || (n == 1)
             xes = vertcat(xes, p(n+1,:));
             iter = i;
@@ -54,7 +65,7 @@ function [minimum, xes, iter] = algorytm_powella(f, x0, d, N, epsilon, gold_step
             return 
         end
         
-        %eliminacja (niedopuszczenia do) liniowej zależności wektorów bazy
+        %elimination of linear dependence of basis vectors
         idxMax = 2; delta = f(p(1,:)) - f(p(2,:));
         for m = idxMax:n+1
             %if abs(f(p(m-1,:)) - f(p(m,:))) > delta
@@ -69,7 +80,7 @@ function [minimum, xes, iter] = algorytm_powella(f, x0, d, N, epsilon, gold_step
         f_3 = f(2 * p(n+1,:) - x0);
 
         if (f_3 >= f_1)  || ((f_1 - 2*f_2 + f_3)*(f_1 - f_2 - delta)^2 >= (0.5 * delta * (f_1 - f_3)^2))
-            % Aktualizacja kierunków poszukiwań
+            % Updating search directions
             if f(2* p(n+1,:) - x0) < f(p(n+1,:))
                 x0 = 2* p(n+1,:) - x0;
             else
@@ -82,7 +93,7 @@ function [minimum, xes, iter] = algorytm_powella(f, x0, d, N, epsilon, gold_step
                 d(u,:) = d(u+1,:);
             end
             d(n,:) = temp_d;
-            %wyznaczenie minimum funkcji 𝑓 wzdłuż kierunku 𝒅𝑛(𝑖+1)
+            %Determining the minimum of the function 𝑓 along the direction 𝒅𝑛(𝑖+1)
             g = @(myalpha)  f(p(n+1, :) + myalpha .* temp_d);
             a = p(n+1,:) - gold_step * (sqrt(5)-1) / 2*i;  b = p(n+1,:) + gold_step * (sqrt(5)-1) / 2*i;
             alpha_min = zloty_podzial(g, a, b, epsilon);
