@@ -1,6 +1,6 @@
-function minimum_x = zloty_podzial(f, a, b, epsilon)
+function minimum_x = golden_section(f, a, b, epsilon)
     if nargin < 1
-        error('Brak funkcji'); % Wyświetl komunikat
+        error('No function'); 
     end
     if nargin < 2
         a = -1000000;
@@ -34,5 +34,5 @@ function minimum_x = zloty_podzial(f, a, b, epsilon)
         end
         iteration = iteration + 1;
     end
-    minimum_x = (a + b) / 2; % Minimum znajduje się w środku przedziału
+    minimum_x = (a + b) / 2; % Minimum in the middle
 end
