@@ -95,3 +95,7 @@ function [minimum, xes, iter] = algorytm_powella(f, x0, d, N, epsilon, gold_step
     end
     iter = N;
 end
+% Author: przemekMal
+% Date: 23.01.2024
+%
+% GitHub repository: https://github.com/przemekMal
