@@ -20,3 +20,16 @@ G = {g};
 
 % Run the optimization
 [minimum, xes, iter] = powell_method_with_penalty_function(f, x0, [], 10, 10e-3, 12, G);
+
+Test Files
+
+Test files with names starting with 'test' are provided to help you validate the functionality of the algorithm. Feel free to explore and adapt these test files for your specific use case.
+File Structure
+
+    powell_method_with_penalty_function.m: Main script implementing Powell's method with linear constraints.
+    test_example1.m, test_example2.m, ...: Example test scripts.
+    utils/: Folder containing utility functions.
+
+Contributors
+
+    przemekMal
