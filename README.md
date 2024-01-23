@@ -27,8 +27,7 @@ Test files with names starting with 'test' are provided to help you validate the
 File Structure
 
     powell_method_with_penalty_function.m: Main script implementing Powell's method with linear constraints.
-    test_example1.m, test_example2.m, ...: Example test scripts.
-    utils/: Folder containing utility functions.
+    test.m, testRastringera.m, ...: Example test scripts.
 
 Contributors
 
